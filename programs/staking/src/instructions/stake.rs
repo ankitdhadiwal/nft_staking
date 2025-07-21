@@ -92,7 +92,17 @@ impl<'info>Stake<'info> {
 
         let cpi_program: AccountInfo<'_> = self.token_program.to_account_info();
 
-        let cpi_accounts: 
+        let cpi_accounts = Transfer {
+            from: self.user_nft_ata.to_account_info(),
+            to: self.vault_user_ata.to_account_info(),
+            authority: self.user.to_account_info(),
+        };
+
+        let cpi_ctx = CpiContext::new(self.token_program.to_account_info().cpi_accounts);
+
+        transfer(cpi_ctx, 1)?;
+
+        Ok(())
     }
 }
 
